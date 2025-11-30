@@ -15,7 +15,9 @@ TypeScript 練習題目 - 商品管理頁面
 <script setup lang="ts">
 // TODO: 匯入 API 函式
 // 提示：從 @/api/products 匯入 apiDeleteProduct, apiGetProducts
-import {} from '@/api/products'
+
+import {apiGetProducts, apiEditProduct, apiDeleteProduct, apiUploadImage} from '@/api/products'
+import type { ProductData, Pagination } from '@/types/product'
 
 import DeleteModal from '@/components/DeleteModal.vue'
 import ProductModal from '@/components/ProductModal.vue'
@@ -36,7 +38,7 @@ const currentPage = ref('1')
 
 // TODO: 為 products 加上型別註解
 // 提示：使用 ref<ProductData[]>()
-const products = ref([])
+const products= ref<ProductData[]>([])
 
 // TODO: 為 pagination 加上型別註解
 // 提示：使用 ref<Pagination>()
@@ -48,13 +50,15 @@ const pagination = ref({
   category: '',
 })
 
+
+
 const getProducts = async () => {
   try {
     const res = await apiGetProducts({
       page: currentPage.value,
     })
 
-    products.value = res.data.products
+    products.value= res.data.products
     pagination.value = res.data.pagination
   } catch (error) {
     alert('取得產品列表失敗')
@@ -87,7 +91,7 @@ const tempProduct = ref(getInitialProductData())
 
 // TODO: 為 openModal 函式加上型別註解
 // 提示：參數 product 的型別是 ProductData | null，預設值是 null，沒有回傳值
-const openModal = (product = null) => {
+const openModal = (product:ProductData|null = null) => {
   if (product) {
     tempProduct.value = { ...product, imagesUrl: product.imagesUrl ? [...product.imagesUrl] : [''] }
   }
@@ -97,13 +101,13 @@ const openModal = (product = null) => {
 
 // TODO: 為 openDeleteModal 函式加上型別註解
 // 提示：參數 productId 是 string 型別，沒有回傳值
-const openDeleteModal = (productId) => {
+const openDeleteModal = (productId:string) => {
   deleteModalRef.value?.openModal(() => handleDeleteProduct(productId))
 }
 
 // TODO: 為 handleDeleteProduct 函式加上型別註解
 // 提示：這是一個 async 函式，參數 productId 是 string 型別，回傳 Promise<void>
-const handleDeleteProduct = async (productId) => {
+const handleDeleteProduct = async (productId:string) => {
   try {
     await apiDeleteProduct(productId)
   } catch (error) {
