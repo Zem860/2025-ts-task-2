@@ -29,12 +29,12 @@ import { onMounted, ref, useTemplateRef } from 'vue'
 
 // TODO: 為模板引用加上型別註解
 // 提示：使用 useTemplateRef<InstanceType<typeof ProductModal>>()
-const productModalRef = useTemplateRef('productModalRef')
-const deleteModalRef = useTemplateRef('deleteModalRef')
+const productModalRef = useTemplateRef<InstanceType<typeof ProductModal>>('productModalRef')
+const deleteModalRef = useTemplateRef<InstanceType<typeof DeleteModal>>('deleteModalRef')
 
 // TODO: 為 currentPage 加上型別註解
 // 提示：使用 ref<string>()
-const currentPage = ref('1')
+const currentPage = ref<string>('1')
 
 // TODO: 為 products 加上型別註解
 // 提示：使用 ref<ProductData[]>()
@@ -42,7 +42,7 @@ const products= ref<ProductData[]>([])
 
 // TODO: 為 pagination 加上型別註解
 // 提示：使用 ref<Pagination>()
-const pagination = ref({
+const pagination = ref<Pagination>({
   total_pages: 0,
   current_page: 0,
   has_pre: false,
@@ -70,7 +70,7 @@ onMounted(() => {
 
 // TODO: 為 getInitialProductData 函式加上型別註解
 // 提示：這個函式不接受參數，回傳 ProductData 型別
-const getInitialProductData = () => ({
+const getInitialProductData = ():ProductData => ({
   id: '',
   title: '',
   origin_price: 0,
@@ -87,7 +87,7 @@ const getInitialProductData = () => ({
 
 // TODO: 為 tempProduct 加上型別註解
 // 提示：使用 ref<ProductData>()
-const tempProduct = ref(getInitialProductData())
+const tempProduct = ref(<ProductData>getInitialProductData())
 
 // TODO: 為 openModal 函式加上型別註解
 // 提示：參數 product 的型別是 ProductData | null，預設值是 null，沒有回傳值
